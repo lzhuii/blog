@@ -1,9 +1,7 @@
 ---
-title: 'Linux 系统中安装 MySQL 8.0'
+title: 'Linux 系统中安装 Java 17'
 date: '2023-11-30 00:48:00'
 ---
-
-
 
 1. 下载 Java 17
 
@@ -38,3 +36,4 @@ date: '2023-11-30 00:48:00'
    ```
 
 ![](https://oss.lzhui.top:443/note/202311300052367.png)
+
