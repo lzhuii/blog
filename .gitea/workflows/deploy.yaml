@@ -14,7 +14,7 @@ jobs:
         run: cp -r posts /opt/nginx/html/blog/content
       - name: 生成字体文件
         run: |
-          find /opt/nginx/html/blog -type f -name "*.md" -or -name "*.css" -or -name "*.js" -or -name "*.yaml" -or -name "*.toml" | xargs cat >> tmp.txt
+          find /opt/nginx/html/blog -type f -name "*.md" -or -type f -name "*.js" -or -name "*.yaml" -or -name "*.toml" | xargs cat >> tmp.txt
           fonttools subset "/opt/nginx/html/blog/static/fonts/LXGWWenKai-Regular.ttf" --text-file="tmp.txt" --output-file="/opt/nginx/html/blog/static/fonts/LXGWWenKai.ttf"
       - name: 静态化网站
         run: cd /opt/nginx/html/blog && hugo -F --cleanDestinationDir
