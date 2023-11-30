@@ -1,5 +1,5 @@
 ---
-title: 'Linux 系统中安装 Node.js'
+title: 'Linux 系统中安装 Node'
 date: '2023-11-30 08:56:00'
 ---
 
