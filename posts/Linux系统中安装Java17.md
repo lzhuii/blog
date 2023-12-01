@@ -35,6 +35,3 @@ tags: ['Linux','Java']
    ```bash
    java -version
    ```
-
-![](https://oss.lzhui.top:443/note/202311300052367.png)
-
