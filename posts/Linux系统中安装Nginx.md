@@ -1,6 +1,7 @@
 ---
 title: 'Linux 系统中安装 Nginx'
 date: '2023-11-30 12:04:00'
+tags: ['Linux','Nginx']
 ---
 
 1. 安装依赖

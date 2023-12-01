@@ -1,6 +1,7 @@
 ---
 title: 'Linux 系统中安装 Java 17'
 date: '2023-11-30 00:48:00'
+tags: ['Linux','Java']
 ---
 
 1. 下载  Java 17

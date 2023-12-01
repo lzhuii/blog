@@ -1,6 +1,7 @@
 ---
 title: 'Linux 系统中安装 Maven'
 date: '2023-11-30 09:01:00'
+tags: ['Linux','Maven']
 ---
 
 1. 下载 Maven

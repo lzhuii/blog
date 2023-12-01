@@ -1,6 +1,7 @@
 ---
 title: 'Linux 系统中安装 Node.js'
 date: '2023-11-30 08:56:00'
+tags: ['Linux','Node.js']
 ---
 
 1. 下载 Node.js
