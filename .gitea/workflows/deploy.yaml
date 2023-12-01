@@ -12,9 +12,10 @@ jobs:
         run: rm -rf /opt/nginx/html/blog/content/*
       - name: 复制新的文章到 Hugo 目录下
         run: cp -r posts /opt/nginx/html/blog/content
+      - name: 静态化网站
+        run: cd /opt/nginx/html/blog && hugo
       - name: 生成字体文件
         run: |
-          find /opt/nginx/html/blog -type f -name "*.md" -or -type f -name "*.js" -or -name "*.yaml" -or -name "*.toml" | xargs cat >> tmp.txt
-          fonttools subset "/opt/nginx/html/blog/static/fonts/LXGWWenKai-Regular.ttf" --text-file="tmp.txt" --output-file="/opt/nginx/html/blog/static/fonts/LXGWWenKai.ttf"
-      - name: 静态化网站
-        run: cd /opt/nginx/html/blog && hugo -F --cleanDestinationDir
+          find /opt/nginx/html/blog/public -type f -name "*[html,css,js]" | xargs cat >> tmp.txt
+          fonttools subset "/opt/nginx/html/blog/static/fonts/LXGWWenKai-Regular.ttf" --text-file="tmp.txt" --output-file="/opt/nginx/html/blog/public/fonts/LXGWWenKai-Regular.ttf"
+     
