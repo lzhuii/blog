@@ -7,20 +7,24 @@ tags: ['Linux','Java']
 1. 下载  Java 17
 
    ```bash
-   wget https://download.oracle.com/java/17/latest/jdk-17_linux-x64_bin.tar.gz
+   wget https://download.oracle.com/java/21/latest/jdk-21_linux-x64_bin.tar.gz
    ```
 
 2. 解压  Java 17
 
    ```bash
-   tar xvf jdk-17_linux-x64_bin.tar.gz -C /usr/local
+   sudo tar xvf jdk-21_linux-x64_bin.tar.gz -C /usr/local
    ```
 
-3. 配置环境变量 `/etc/profile`
+3. 配置环境变量
 
    ```bash
-   # JAVA 17
-   export JAVA_HOME=/usr/local/jdk-17.0.9
+   sudo vim /etc/profile.d/ecs.sh
+   ```
+
+   ```bash
+   # JAVA 21
+   export JAVA_HOME=/usr/local/jdk-21.0.1
    export PATH=$PATH:$JAVA_HOME/bin
    ```
 

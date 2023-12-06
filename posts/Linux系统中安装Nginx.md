@@ -7,7 +7,7 @@ tags: ['Linux','Nginx']
 1. 安装依赖
 
    ```bash
-   dnf install -y zlib-devel pcre-devel openssl-devel
+   sudo dnf install -y zlib-devel pcre-devel openssl-devel
    ```
 
 2. 下载 Nginx 源码
@@ -19,32 +19,41 @@ tags: ['Linux','Nginx']
 3. 解压 Nginx 源码
 
    ```bash
-   tar xvf nginx-1.24.0.tar.gz
+   sudo tar xvf nginx-1.24.0.tar.gz -C /usr/local/src
    ```
 
 4. 配置
 
    ```bash
-   cd nginx-1.24.0
-   ./configure --prefix=/usr/local/nginx --with-http_ssl_module --with-http_v2_module --with-http_realip_module
+   cd /usr/local/src/nginx-1.24.0
+   sudo ./configure --prefix=/usr/local/nginx --with-http_ssl_module --with-http_v2_module --with-http_realip_module
    ```
 
 5. 编译安装
 
    ```bash
-   make -j 4
-   make install
+   sudo make -j 4
+   sudo make install
    ```
 
-6. 安装 SSL 证书
+6. 创建 nginx 用户
 
    ```bash
-   cd /usr/local/nginx/conf
-   mkdir cert
+   sudo useradd nginx
+   ```
+
+7. 安装 SSL 证书
+
+   ```bash
+   sudo mkdir /usr/local/nginx/conf/cert
    # sftp上传证书
    ```
 
-7. 修改 Nginx 配置文件 `/usr/local/nginx/conf/nginx.conf`
+8. 修改 Nginx 配置文件
+
+   ```bash
+   sudo vim /usr/local/nginx/conf/nginx.conf
+   ```
 
    ```nginx
    user nginx;
@@ -65,7 +74,7 @@ tags: ['Linux','Nginx']
       server {
           listen 80;
           listen [::]:80;
-          server_name 域名;
+          server_name lzhui.top;
    
           return 301 https://$host$request_uri;
       }
@@ -74,10 +83,10 @@ tags: ['Linux','Nginx']
          listen 443 ssl http2;
          listen [::]:443 ssl http2;
    
-         server_name 域名;
+         server_name lzhui.top;
    
-         ssl_certificate cert/域名.pem;
-         ssl_certificate_key cert/域名.key;
+         ssl_certificate cert/lzhui.top.pem;
+         ssl_certificate_key cert/lzhui.top.key;
    
          ssl_session_cache shared:SSL:1m;
          ssl_session_timeout 5m;
@@ -95,15 +104,11 @@ tags: ['Linux','Nginx']
    }
    ```
 
-8. 创建 nginx 用户
+9. 创建 nginx 服务
 
    ```bash
-   useradd nginx
-   chown -R nginx:nginx /usr/local/nginx 
-   setcap 'cap_net_bind_service=+ep' /usr/local/nginx/sbin/nginx
+   sudo vim /etc/systemd/system/nginx.service
    ```
-
-9. 创建 nginx 服务 `/etc/systemd/system/nginx.service`
 
    ```bash
    [Unit]
@@ -111,15 +116,11 @@ tags: ['Linux','Nginx']
    After=network.target
    
    [Service]
-   User=nginx
-   Group=nginx
    Type=forking
+   ExecStartPre=/usr/local/nginx/sbin/nginx -t
    ExecStart=/usr/local/nginx/sbin/nginx
    ExecReload=/usr/local/nginx/sbin/nginx -s reload
    ExecStop=/usr/local/nginx/sbin/nginx -s stop
-   KillSignal=SIGQUIT
-   TimeoutStopSec=5
-   KillMode=process
    PrivateTmp=true
    
    [Install]
@@ -129,8 +130,8 @@ tags: ['Linux','Nginx']
 10. 启动 Nginx
 
     ```bash
-    systemctl start nginx
-    systemctl enable nginx
+    sudo systemctl start nginx
+    sudo systemctl enable nginx
     ```
 
     

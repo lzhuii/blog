@@ -7,13 +7,16 @@ tags: ['Linux','MySQL']
 1. 安装 MySQL
 
    ```bash
-   dnf install -y mysql-server
+   sudo dnf install -y mysql-server
    ```
 
 2. 修改默认端口
 
    ```bash
-   # /etc/my.cnf.d/mysql-server.cnf
+   sudo vim /etc/my.cnf.d/mysql-server.cnf
+   ```
+
+   ```bash
    [mysqld]
    port=端口
    ```
@@ -21,13 +24,13 @@ tags: ['Linux','MySQL']
 3. 启动 MySQL
 
    ```bash
-   systemctl start mysqld
+   sudo systemctl start mysqld
    ```
 
 4. 修改 root 密码
 
    ```bash
-   mysqladmin -u root -p password
+   sudo mysqladmin -u root -p password
    #旧密码(默认是空)
    #新密码
    #确认密码

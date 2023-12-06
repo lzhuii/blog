@@ -7,20 +7,24 @@ tags: ['Linux','Maven']
 1. 下载 Maven
 
    ```bash
-   wget https://dlcdn.apache.org/maven/maven-3/3.9.5/binaries/apache-maven-3.9.5-bin.tar.gz
+   wget https://mirrors.tuna.tsinghua.edu.cn/apache/maven/maven-3/3.9.6/binaries/apache-maven-3.9.6-bin.tar.gz
    ```
 
 2. 解压 Maven
 
    ```bash
-   tar xvf apache-maven-3.9.5-bin.tar.gz -C /usr/locacl
+   sudo tar xvf apache-maven-3.9.6-bin.tar.gz -C /usr/local
    ```
 
-3. 配置环境变量 `/etc/profile`
+3. 配置环境变量
+
+   ```bash
+   sudo vim /etc/profile.d/ecs.sh
+   ```
 
    ```bash
    # MAVEN
-   export MAVEN_HOME=/usr/local/apache-maven-3.9.5
+   export MAVEN_HOME=/usr/local/apache-maven-3.9.6
    export PATH=$PATH:$MAVEN_HOME/bin
    ```
 

@@ -13,10 +13,14 @@ tags: ['Linux','Node.js']
 2. 解压 Node.js
 
    ```bash
-   tar xvf node-v20.10.0-linux-x64.tar.xz -C /usr/local
+   sudo tar xvf node-v20.10.0-linux-x64.tar.xz -C /usr/local
    ```
 
-3. 配置环境变量 `/etc/profile`
+3. 配置环境变量
+
+   ```bash
+   sudo vim /etc/profile.d/ecs.sh
+   ```
 
    ```bash
    # NODE
