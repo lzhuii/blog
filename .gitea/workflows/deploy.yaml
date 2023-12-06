@@ -15,4 +15,8 @@ jobs:
       - name: 静态化网站
         run: |
           cd /usr/local/nginx/html/blog
-          /usr/local/bin/hugo
+          hugo
+      - name: 提取字体
+        run: |
+          find /usr/local/nginx/html/blog/public -type f -name "*[html,css,js,json,txt]" | xargs cat >> tmp.txt
+          fonttools subset "/usr/share/fonts/LXGWWenKai-Regular.ttf" --text-file="tmp.txt" --output-file="/usr/local/nginx/html/blog/public/fonts/LXGWWenKai-Regular.ttf"
