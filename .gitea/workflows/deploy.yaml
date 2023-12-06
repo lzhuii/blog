@@ -17,4 +17,4 @@ jobs:
       - name: 静态化网站
         run: |
           cd /usr/local/nginx/html/blog
-          hugo
+          /usr/local/bin/hugo
