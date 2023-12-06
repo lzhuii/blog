@@ -22,21 +22,16 @@ tags: ['Linux','Nginx']
    sudo tar xvf nginx-1.24.0.tar.gz -C /usr/local/src
    ```
 
-4. 配置
+4. 编译安装
 
    ```bash
    cd /usr/local/src/nginx-1.24.0
    sudo ./configure --prefix=/usr/local/nginx --with-http_ssl_module --with-http_v2_module --with-http_realip_module
-   ```
-
-5. 编译安装
-
-   ```bash
    sudo make -j 4
    sudo make install
    ```
 
-6. 创建 nginx 用户
+5. 创建 nginx 用户
 
    ```bash
    sudo useradd nginx

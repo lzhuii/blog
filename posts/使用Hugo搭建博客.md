@@ -24,7 +24,7 @@ date: '2023-12-04 21:02:11'
 
    ```bash
    cd /usr/local/nginx/html/blog/themes
-   git clone https://github.com/adityatelange/hugo-PaperMod.git PaperMod
+   git clone https://gitee.com/lzhuii/hugo-PaperMod.git PaperMod
    ```
 
 4. 修改配置文件
