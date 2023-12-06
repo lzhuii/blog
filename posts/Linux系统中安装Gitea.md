@@ -102,33 +102,42 @@ tags: ['Linux','Git']
 6. 下载，安装 act_runner
 
    ```bash
-   mkdir -p /opt/act_runner
-   wget -O /opt/act_runner/act_runner https://dl.gitea.com/act_runner/0.2.6/act_runner-0.2.6-linux-amd64
-   chmod +x /opt/act_runner/act_runner
+   sudo mkdir -p /usr/local/act_runner/{bin,conf,log}
+   sudo wget -O /usr/local/act_runner/bin/act_runner https://dl.gitea.com/act_runner/0.2.6/act_runner-0.2.6-linux-amd64
+   sudo chmod +x /usr/local/act_runner/bin/act_runner
+   sudo chown -R git:git /usr/local/act_runner
+   sudo chmod -R 750 /usr/local/act_runner
    ```
 
-7. 配置 act_runner
+7. 配置开启 Gitea Actions
 
    ```bash
-   # /opt/gitea/conf/app.ini
+   sudo vim /usr/local/gitea/conf/app.ini
+   ```
+
+   ```bash
    [actions]
    ENABLED=true
-   
-   cd /opt/act_runner
-   ./act_runner generate-config > config.yaml
-   ./act_runner -c config.yaml register
+   ```
+
+8. 注册 act_runner
+
+   ```bash
+   sudo systemctl restart gitea
+   sudo su git
+   cd /usr/local/act_runner
+   ./bin/act_runner generate-config > ./conf/config.yaml
+   ./bin/act_runner -c ./conf/config.yaml register
    # gitea地址 https://git.lzhui.top
    # token
    # runner名称 默认
    # 标签 linux
    ```
 
-8. 启动 act_runner
+9. 启动 act_runner
 
    ```bash
-   chown -R git:git /opt/act_runner
-   su git
-   nohup /opt/act_runner/act_runner daemon --config /opt/act_runner/config.yaml > /opt/act_runner/act_runner.log 2>&1 &
+   nohup /usr/local/act_runner/bin/act_runner daemon --config /usr/local/act_runner/conf/config.yaml > /usr/local/act_runner/log/act_runner.log 2>&1 &
    ```
 
    

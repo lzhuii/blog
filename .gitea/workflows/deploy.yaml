@@ -9,13 +9,12 @@ jobs:
       - name: 拉取代码
         uses: https://gitee.com/lzhuii/checkout@v4
       - name: 清理 Hugo 文章目录
-        run: rm -rf /opt/nginx/html/blog/content/*
+        run: rm -rf /usr/local/nginx/html/blog/content/*
       - name: 复制新的文章到 Hugo 目录下
-        run: cp -r * /opt/nginx/html/blog/content
-      - name: 静态化网站
-        run: cd /opt/nginx/html/blog && hugo
-      - name: 生成字体文件
         run: |
-          find /opt/nginx/html/blog/public -type f -name "*[html,css,js]" | xargs cat >> tmp.txt
-          fonttools subset "/opt/nginx/html/blog/static/fonts/LXGWWenKai-Regular.ttf" --text-file="tmp.txt" --output-file="/opt/nginx/html/blog/public/fonts/LXGWWenKai-Regular.ttf"
-     
+          cp -r posts /usr/local/nginx/html/blog/content
+          cp -r *md /usr/local/nginx/html/blog/content
+      - name: 静态化网站
+        run: |
+          cd /usr/local/nginx/html/blog
+          hugo
