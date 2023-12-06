@@ -90,7 +90,7 @@ tags: ['Linux','Nginx']
          ssl_prefer_server_ciphers on;
    
          location / {
-            root html/blog/;
+            root html/blog/public;
             index index.html index.htm;
          }
       }

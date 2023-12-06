@@ -9,11 +9,9 @@ jobs:
       - name: 拉取代码
         uses: https://gitee.com/lzhuii/checkout@v4
       - name: 清理 Hugo 文章目录
-        run: rm -rf /usr/local/nginx/html/blog/content/*
+        run: rm -rf /usr/local/nginx/html/blog/content/posts/*
       - name: 复制新的文章到 Hugo 目录下
-        run: |
-          cp -r posts /usr/local/nginx/html/blog/content
-          cp -r *md /usr/local/nginx/html/blog/content
+        run: cp -r *md /usr/local/nginx/html/blog/content/posts
       - name: 静态化网站
         run: |
           cd /usr/local/nginx/html/blog
