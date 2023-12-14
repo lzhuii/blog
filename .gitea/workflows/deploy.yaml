@@ -15,6 +15,7 @@ jobs:
       - name: 提取字体
         run: |
           find public -type f -name "*[html,css,js,json,txt]" | xargs cat >> tmp.txt
+          mkdir -p public/fonts
           fonttools subset "/usr/share/fonts/LXGWWenKai-Regular.ttf" --text-file="tmp.txt" --output-file="public/fonts/LXGWWenKai-Regular.ttf" 
       - name: 复制新的文章到 Hugo 目录下
         run: cp -r public/* /usr/local/nginx/html/blog
