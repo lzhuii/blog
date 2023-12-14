@@ -46,6 +46,7 @@ date: '2023-12-04 21:02:11'
    buildDrafts: false
    buildFuture: false
    buildExpired: false
+   cleanDestinationDir: true
    
    googleAnalytics: UA-123-45
    
@@ -131,11 +132,6 @@ date: '2023-12-04 21:02:11'
        hiddenInList: true # hide on list pages and home
        hiddenInSingle: true # hide on single page
    
-     editPost:
-       URL: "https://github.com/<path_to_repo>/content"
-       Text: "Suggest Changes" # edit text
-       appendFilePath: true # to append file path to Edit link
-   
      # for search
      # https://fusejs.io/api/options.html
      fuseOpts:
@@ -183,6 +179,19 @@ date: '2023-12-04 21:02:11'
    ```bash
    cd /usr/local/nginx/html/blog
    hugo
+   ```
+
+
+7. 安装foottools，配置字体
+
+   ```bash
+   sudo mkdir -p /usr/share/fonts
+   # sftp上传字体文件 LXGWWenKai-Regular.ttf
+   
+   pip install fontTools
+   # 提取字体
+   find /usr/local/nginx/html/blog/public -type f -name "*[html,css,js,json,txt]" | xargs cat >> tmp.txt
+   fonttools subset "/usr/share/fonts/LXGWWenKai-Regular.ttf" --text-file="tmp.txt" --output-file="/usr/local/nginx/html/blog/public/fonts/LXGWWenKai-Regular.ttf"
    ```
 
    
