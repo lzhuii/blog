@@ -3,3 +3,12 @@ This is just a placeholder blank stylesheet so as to support adding custom style
 
 Read https://github.com/adityatelange/hugo-PaperMod/wiki/FAQs#bundling-custom-css-with-themes-assets for more info
 */
+
+@font-face {
+    font-family: LXGWWenKai-Regular;
+    src: url('/fonts/LXGWWenKai-Regular.ttf');
+}
+
+* {
+    font-family: 'LXGWWenKai-Regular', sans-serif;
+}
