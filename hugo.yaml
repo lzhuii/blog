@@ -39,7 +39,7 @@ params:
   ShowShareButtons: true
   ShowPostNavLinks: true
   ShowBreadCrumbs: true
-  ShowCodeCopyButtons: false
+  ShowCodeCopyButtons: true
   ShowWordCount: true
   ShowRssButtonInSectionTermList: true
   UseHugoToc: true
@@ -75,11 +75,11 @@ params:
     imageHeight: 120
     imageTitle: 
     buttons:
-      - name: 文章
+      - name: 📖文章
         url: posts
-      - name: 标签
+      - name: 🏷️标签
         url: tags
-      - name: 时间轴
+      - name: ⏱️时间轴
         url: archives
 
   # home-info mode
@@ -110,15 +110,15 @@ params:
 menu:
   main:
     - identifier: tags
-      name: 标签
+      name: 🏷️标签
       url: /tags/
       weight: 1
     - identifier: archives
-      name: 时间轴
+      name: ⏱️时间轴
       url: /archives/
       weight: 2
     - identifier: search
-      name: 搜索
+      name: 🔍搜索
       url: /search/
       weight: 3
       
