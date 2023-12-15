@@ -7,7 +7,7 @@ jobs:
     runs-on: linux
     steps:
       - name: 拉取代码
-        uses: https://gitee.com/lzhuii/checkout@v4
+        uses: hui/checkout@v4
       - name: 清理 Hugo 文章目录
         run: rm -rf /usr/local/nginx/html/blog/*
       - name: 静态化网站
