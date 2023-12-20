@@ -4,85 +4,97 @@ date: '2023-12-20 09:37:11'
 tags: ['大数据','Hadoop']
 ---
 
-# 一、安装操作系统
+[TOC]
 
-1. 下载 [Anolis OS 8.8](https://mirrors.openanolis.cn/anolis/8.8/isos/GA/x86_64/AnolisOS-8.8-x86_64-minimal.iso)
+# 一、安装系统
 
+## 1.1 创建虚拟机
+
+1. 下载操作系统镜像 [Anolis OS 8.8](https://mirrors.openanolis.cn/anolis/8.8/isos/GA/x86_64/AnolisOS-8.8-x86_64-minimal.iso)
 2. 创建虚拟机 hadoop101
+3. 安装必要的软件
 
-3. 配置 hosts `/etc/hosts`
+```bash
+dnf install -y tar vim
+```
 
-   ```bash
-   192.168.194.101 hadoop101
-   ```
+## 1.2 配置 hosts
 
-4. 配置 hostname `/etc/hostname`
+```bash
+vim /etc/hosts
 
-   ```bash
-   hadoop101
-   ```
+192.168.194.101 hadoop101
+```
 
-5. 配置静态 ip `/etc/sysconfig/network-scripts/ifcfg-ens33`
+## 1.3 配置主机名
 
-   ```bash
-   TYPE=Ethernet
-   PROXY_METHOD=none
-   BROWSER_ONLY=no
-   BOOTPROTO=none
-   DEFROUTE=yes
-   IPV4_FAILURE_FATAL=no
-   IPV6INIT=yes
-   IPV6_AUTOCONF=yes
-   IPV6_DEFROUTE=yes
-   IPV6_FAILURE_FATAL=no
-   NAME=ens33
-   UUID=19ee12a2-8b4c-4d9f-a687-ac9017395936
-   DEVICE=ens33
-   ONBOOT=yes
-   IPADDR=192.168.194.101
-   PREFIX=24
-   GATEWAY=192.168.194.147
-   DNS1=192.168.194.147
-   ```
+```bash
+vim /etc/hostname
 
-6. 安装必要软件
+hadoop101
+```
 
-   ```bash
-    dnf install -y tar vim
-   ```
+## 1.4 配置静态地址
 
-7. 创建 hadoop 用户
+```bash
+vim /etc/sysconfig/network-scripts/ifcfg-ens33
 
-   ```bash
-   mkdir /user
-   useradd -d /user/hadoop -m hadoop
-   passwd hadoop
-   # 123456
-   # 123456
-   
-   visudo
-   hadoop  ALL=(ALL)       NOPASSWD: ALL
-   ```
+TYPE=Ethernet
+PROXY_METHOD=none
+BROWSER_ONLY=no
+BOOTPROTO=none
+DEFROUTE=yes
+IPV4_FAILURE_FATAL=no
+IPV6INIT=yes
+IPV6_AUTOCONF=yes
+IPV6_DEFROUTE=yes
+IPV6_FAILURE_FATAL=no
+NAME=ens33
+UUID=19ee12a2-8b4c-4d9f-a687-ac9017395936
+DEVICE=ens33
+ONBOOT=yes
+IPADDR=192.168.194.101
+PREFIX=24
+GATEWAY=192.168.194.147
+DNS1=192.168.194.147
+```
 
-8. 关闭防火墙
+## 1.5 关闭防火墙
 
-   ```bash
-   systemctl stop firewalld
-   systemctl disable firewalld
-   setenforce 0
-   iptables -F
-   ```
+```bash
+systemctl stop firewalld
+systemctl disable firewalld
+setenforce 0
+iptables -F
+```
 
-9. 切换到 hadoop 用户，配置 SSH 免密登录
+## 1.6 创建 hadoop 用户
 
-   ```bash
-   su hadoop
-   ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
-   cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
-   chmod 0600 ~/.ssh/authorized_keys
-   ```
-   
-   
+```bash
+# 创建用户家目录
+mkdir /user
+# 创建用户
+useradd -d /user/hadoop -m hadoop
+# 设置密码
+passwd hadoop
+# 123456
+# 123456
+
+# 添加 sudo 权限
+visudo
+
+hadoop  ALL=(ALL)       NOPASSWD: ALL
+```
+
+## 1.7 配置 SSH 免密登录
+
+```bash
+# 切换到 hadoop 用户
+su hadoop
+ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
+cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+chmod 0600 ~/.ssh/authorized_keys
+```
 
 
 # 二、安装 Java 11
@@ -102,7 +114,7 @@ tags: ['大数据','Hadoop']
    source /etc/profile
    java -version
    ```
-   
+
 
 # 三、安装 Hadoop 3.3.6
 
