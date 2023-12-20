@@ -73,14 +73,15 @@ tags: ['大数据','Hadoop']
    iptables -F
    ```
 
-9. 配置 SSH 免密登录
+9. 切换到 hadoop 用户，配置 SSH 免密登录
 
    ```bash
+   su hadoop
    ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
    cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
    chmod 0600 ~/.ssh/authorized_keys
    ```
-
+   
    
 
 
@@ -132,7 +133,7 @@ tags: ['大数据','Hadoop']
 
    `etc/hadoop/core-site.xml`
 
-   ```bash
+   ```xml
    <?xml version="1.0" encoding="UTF-8"?>
    <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
    <configuration>
@@ -145,7 +146,7 @@ tags: ['大数据','Hadoop']
 
    `etc/hadoop/hdfs-site.xml`
 
-   ```bash
+   ```xml
    <?xml version="1.0" encoding="UTF-8"?>
    <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
    <configuration>
@@ -158,7 +159,7 @@ tags: ['大数据','Hadoop']
 
    `etc/hadoop/mapred-site.xml`
 
-   ```bash
+   ```xml
    <?xml version="1.0"?>
    <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
    <configuration>
@@ -175,7 +176,7 @@ tags: ['大数据','Hadoop']
 
    `etc/hadoop/yarn-site.xml`
 
-   ```bash
+   ```xml
    <?xml version="1.0"?>
    <configuration>
        <property>
