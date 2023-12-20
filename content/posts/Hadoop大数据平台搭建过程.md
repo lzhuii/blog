@@ -9,12 +9,14 @@ tags: ['大数据','Hadoop']
 ## 1.1 创建虚拟机
 
 1. 下载操作系统镜像 [Anolis OS 8.8](https://mirrors.openanolis.cn/anolis/8.8/isos/GA/x86_64/AnolisOS-8.8-x86_64-minimal.iso)
+
 2. 创建虚拟机 hadoop101
+
 3. 安装必要的软件
 
-```bash
-dnf install -y tar vim
-```
+   ```bash
+   dnf install -y tar vim
+   ```
 
 ## 1.2 配置 hosts
 
