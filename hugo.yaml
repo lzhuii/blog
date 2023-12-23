@@ -67,7 +67,7 @@ params:
 
   # profile-mode
   profileMode:
-    enabled: true # needs to be explicitly set
+    enabled: false # needs to be explicitly set
     title: 临渊羡鱼
     subtitle: "一个正在路上的程序猿"
     imageUrl: "img/avatar.jpg"
