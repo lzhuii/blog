@@ -4,13 +4,35 @@ date: '2023-12-20 09:37:11'
 tags: ['大数据','Hadoop']
 ---
 
+## 集群规划
+
+| 节点      | IP            | 配置   | 组件                                    |
+| --------- | ------------- | ------ | --------------------------------------- |
+| hadoop101 | 192.168.1.101 | 8C 16G | MySQL,NameNode,DataNode,ResourceManager |
+| hadoop102 | 192.168.1.102 | 4C 8G  | DataNode                                |
+| hadoop103 | 192.168.1.103 | 4C 8G  | DataNode                                |
+
 # 一、安装系统
 
 ## 1.1 创建虚拟机
 
 1. 下载操作系统镜像 [Anolis OS 8.8](https://mirrors.openanolis.cn/anolis/8.8/isos/GA/x86_64/AnolisOS-8.8-x86_64-minimal.iso)
 
-2. 创建虚拟机 hadoop101
+2. 创建虚拟机 hadoop101，克隆虚拟机 hadoop102,hadoop103
+
+   ![image-20231224104359087](https://oss.lzhui.top:443/blog/image-20231224104359087.png)
+
+   ![image-20231224104417014](https://oss.lzhui.top:443/blog/image-20231224104417014.png)
+
+   ![image-20231224104532251](https://oss.lzhui.top:443/blog/image-20231224104532251.png)
+
+   ![image-20231224104541013](https://oss.lzhui.top:443/blog/image-20231224104541013.png)
+
+   ![image-20231224104554978](https://oss.lzhui.top:443/blog/image-20231224104554978.png)
+
+   ![image-20231224104632139](https://oss.lzhui.top:443/blog/image-20231224104632139.png)
+
+   
 
 3. 安装必要的软件
 
