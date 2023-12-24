@@ -1,6 +1,6 @@
 ---
 title: 'Linux 系统中安装 MySQL 8.0'
-date: '2023-11-30 00:13:00'
+date: '2023-11-30'
 tags: ['Linux','MySQL']
 ---
 

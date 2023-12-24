@@ -1,6 +1,6 @@
 ---
 title: 'Linux 系统中安装 Java 21'
-date: '2023-11-30 00:48:00'
+date: '2023-11-30'
 tags: ['Linux','Java']
 ---
 

@@ -31,7 +31,7 @@ params:
   keywords: [Blog, Portfolio, PaperMod]
   author: 临渊羡鱼
   images: ["<link or path of image for opengraph, twitter-cards>"]
-  DateFormat: "2006年01月02日 15:04:05"
+  DateFormat: "2006年01月02日"
   defaultTheme: auto # dark, light
   disableThemeToggle: false
 
