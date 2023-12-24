@@ -1,5 +1,5 @@
 baseURL: "https://lzhui.top/"
-title: 临渊羡鱼
+title: 空影星辉
 paginate: 5
 theme: PaperMod
 languageCode: zh-cn
@@ -26,10 +26,10 @@ outputs:
     
 params:
   env: production # to enable google analytics, opengraph, twitter-cards and schema.
-  title: 临渊羡鱼
+  title: 空影星辉
   description: "一个正在路上的程序猿"
   keywords: [Blog, Portfolio, PaperMod]
-  author: 临渊羡鱼
+  author: 空影星辉
   images: ["<link or path of image for opengraph, twitter-cards>"]
   DateFormat: "2006年01月02日"
   defaultTheme: auto # dark, light
@@ -61,13 +61,13 @@ params:
     safari_pinned_tab: "<link / abs url>"
 
   label:
-    text: "临渊羡鱼"
+    text: "空影星辉"
     icon: /apple-touch-icon.png
     iconHeight: 35
 
   # home-info mode
   homeInfoParams:
-    Title: '临渊羡鱼'
+    Title: '空影星辉'
     Content: '一个正在路上的程序猿'
 
   socialIcons:
