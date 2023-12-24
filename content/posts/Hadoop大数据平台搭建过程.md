@@ -23,13 +23,9 @@ tags: ['大数据','Hadoop']
 
 ## 创建虚拟机
 
-![image-20231224104532251](https://oss.lzhui.top/blog/image-20231224104532251.png)
+创建虚拟机 hadoop101
 
-![image-20231224104541013](https://oss.lzhui.top/blog/image-20231224104541013.png)
-
-![image-20231224104554978](https://oss.lzhui.top/blog/image-20231224104554978.png)
-
-![image-20231224104632139](https://oss.lzhui.top/blog/image-20231224104632139.png)
+![image-20231224113345710](https://oss.lzhui.top/blog/image-20231224113345710.png)
 
 ## 系统通用配置
 
@@ -112,15 +108,23 @@ tags: ['大数据','Hadoop']
     hadoop  ALL=(ALL)       NOPASSWD: ALL
     ```
 
-5. 配置 SSH 免密登录
+## 克隆虚拟机
 
-    ```bash
-    su hadoop
-    ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
-    ssh-copy-id hadoop@hadoop101
-    ssh-copy-id hadoop@hadoop102
-    ssh-copy-id hadoop@hadoop103
-    ```
+1. 创建 hadoop101 的快照，克隆虚拟机 hadoop102、hadoop103，并修改为 4C 8G
+
+   ![image-20231224113519873](https://oss.lzhui.top/blog/image-20231224113519873.png)
+
+2. 修改 hadoop102、hadoop103 的 IP 和主机名
+
+3. 登录三台服务器，配置 SSH 免密登录
+
+   ```bash
+   su hadoop
+   ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
+   ssh-copy-id hadoop@hadoop101
+   ssh-copy-id hadoop@hadoop102
+   ssh-copy-id hadoop@hadoop103
+   ```
 
 # 安装集群
 
