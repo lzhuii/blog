@@ -36,7 +36,7 @@ params:
   disableThemeToggle: false
 
   ShowReadingTime: true
-  ShowShareButtons: true
+  ShowShareButtons: false
   ShowPostNavLinks: true
   ShowBreadCrumbs: true
   ShowCodeCopyButtons: true
@@ -64,23 +64,6 @@ params:
     text: "临渊羡鱼"
     icon: /apple-touch-icon.png
     iconHeight: 35
-
-  # profile-mode
-  profileMode:
-    enabled: false # needs to be explicitly set
-    title: 临渊羡鱼
-    subtitle: "一个正在路上的程序猿"
-    imageUrl: "img/avatar.jpg"
-    imageWidth: 120
-    imageHeight: 120
-    imageTitle: 
-    buttons:
-      - name: 📖文章
-        url: posts
-      - name: 🏷️标签
-        url: tags
-      - name: ⏱️时间轴
-        url: archives
 
   # home-info mode
   homeInfoParams:
