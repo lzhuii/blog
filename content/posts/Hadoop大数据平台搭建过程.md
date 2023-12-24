@@ -156,17 +156,18 @@ tags: ['大数据','Hadoop']
 ## 安装 Hadoop 3.3.6
 
 1. 下载 [Hadoop 3.3.6](https://mirrors.bfsu.edu.cn/apache/hadoop/common/hadoop-3.3.6/hadoop-3.3.6.tar.gz)
+
 2. 解压并配置环境变量
 
     ```bash
     sudo tar xvf hadoop-3.3.6.tar.gz -C /usr/local/
-
+    
     sudo vim /etc/profile.d/server.sh
     # HADOOP 3.3.6
     export HADOOP_HOME=/usr/local/hadoop-3.3.6
     export PATH=$PATH:$HADOOP_HOME/bin
     export PATH=$PATH:$HADOOP_HOME/sbin
-
+    
     source /etc/profile
     hadoop version
     ```
@@ -187,7 +188,15 @@ tags: ['大数据','Hadoop']
     <configuration>
         <property>
             <name>fs.defaultFS</name>
-            <value>hdfs://hadoop101:9000</value>
+            <value>hdfs://hadoop101:8020</value>
+        </property>
+        <property>
+            <name>hadoop.tmp.dir</name>
+            <value>/usr/local/hadoop-3.3.6/data</value>
+        </property>
+        <property>
+            <name>hadoop.http.staticuser.user</name>
+            <value>hadoop</value>
         </property>
     </configuration>
     ```
@@ -199,8 +208,12 @@ tags: ['大数据','Hadoop']
     <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
     <configuration>
         <property>
-            <name>dfs.replication</name>
-            <value>1</value>
+            <name>dfs.namenode.http-address</name>
+            <value>hadoop101:9870</value>
+        </property>
+        <property>
+            <name>dfs.namenode.secondary.http-address</name>
+            <value>hadoop102:9868</value>
         </property>
     </configuration>
     ```
@@ -208,16 +221,12 @@ tags: ['大数据','Hadoop']
     `etc/hadoop/mapred-site.xml`
 
     ```xml
-    <?xml version="1.0"?>
+    <?xml version="1.0" encoding="UTF-8"?>
     <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
     <configuration>
         <property>
             <name>mapreduce.framework.name</name>
             <value>yarn</value>
-        </property>
-        <property>
-            <name>mapreduce.application.classpath</name>
-            <value>$HADOOP_MAPRED_HOME/share/hadoop/mapreduce/*:$HADOOP_MAPRED_HOME/share/hadoop/mapreduce/lib/*</value>
         </property>
     </configuration>
     ```
@@ -225,34 +234,59 @@ tags: ['大数据','Hadoop']
     `etc/hadoop/yarn-site.xml`
 
     ```xml
-    <?xml version="1.0"?>
+    <?xml version="1.0" encoding="UTF-8"?>
+    <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
     <configuration>
         <property>
             <name>yarn.nodemanager.aux-services</name>
             <value>mapreduce_shuffle</value>
         </property>
         <property>
+            <name>yarn.resourcemanager.hostname</name>
+            <value>hadoop103</value>
+        </property>
+        <property>
             <name>yarn.nodemanager.env-whitelist</name>
-            <value>JAVA_HOME,HADOOP_COMMON_HOME,HADOOP_HDFS_HOME,HADOOP_CONF_DIR,CLASSPATH_PREPEND_DISTCACHE,HADOOP_YARN_HOME,HADOOP_HOME,PATH,LANG,TZ,HADOOP_MAPRED_HOME</value>
+            <value>JAVA_HOME,HADOOP_COMMON_HOME,HADOOP_HDFS_HOME,HADOOP_CONF_DIR,CLASSPATH_PREPEND_DISTCACHE,HADOOP_YARN_HOME,HADOOP_MAPRED_HOME</value>
         </property>
     </configuration>
+    ```
+
+    `etc/hadoop/workers`
+
+    ```bash
+    hadoop101
+    hadoop102
+    hadoop103
     ```
 
 4. 初始化
 
     ```bash
+    # hadoop101
     hdfs namenode -format
     ```
 
-5. 启动
+5. 启动 HDFS
 
     ```bash
+    # hadoop101
     start-dfs.sh
-    hdfs dfs -mkdir -p /user/hadoop
     ```
 
-6. 访问
+6. 启动 YARN
 
-- [http://192.168.1.101:9870](http://192.168.194.101:9870)
+    ```bash
+    # hadoop103
+    start-yarn.sh
+    ```
 
-- [http://192.168.1.101:8088](http://192.168.194.101:9870)
+7. 检查 HDFS 和 YARN 的进程是否正确启动
+
+    ![image-20231224195156615](https://oss.lzhui.top/blog/image-20231224195156615.png)
+
+8. 访问
+
+- [http://hadoop101:9870](http://hadoop101:9870)
+
+- [http://hadoop103:8088](http://hadoop103:8088)
