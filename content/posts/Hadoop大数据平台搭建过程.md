@@ -6,14 +6,17 @@ tags: ['大数据','Hadoop']
 
 # 集群规划
 
-| 节点      | IP            | 配置   | 组件            |
-| --------- | ------------- | ------ | --------------- |
-| hadoop101 | 192.168.1.101 | 8C 16G | MySQL           |
-|           |               |        | NameNode        |
-|           |               |        | DataNode        |
-|           |               |        | ResourceManager |
-| hadoop102 | 192.168.1.102 | 4C 8G  | DataNode        |
-| hadoop103 | 192.168.1.103 | 4C 8G  | DataNode        |
+| 节点 | hadoop101     | hadoop102         | hadoop103       |
+| ---- | ------------- | ----------------- | --------------- |
+| IP   | 192.168.1.101 | 192.168.1.102     | 192.168.1.103   |
+| 配置 | 8C 16G        | 4C 8G             | 4C 8G           |
+|      | NameNode      |                   |                 |
+|      |               | SecondaryNameNode |                 |
+|      | DataNode      | DataNode          | DataNode        |
+|      |               |                   | ResourceManager |
+|      | NodeManager   | NodeManager       | NodeManager     |
+
+
 
 # 安装系统
 
@@ -33,7 +36,7 @@ tags: ['大数据','Hadoop']
 
     ```bash
     dnf update
-    dnf install -y tar vim
+    dnf install -y tar vim wget
     ```
 
 2. 配置 hosts
@@ -119,7 +122,7 @@ tags: ['大数据','Hadoop']
 3. 登录三台服务器，配置 SSH 免密登录
 
    ```bash
-   su hadoop
+   # hadoop 用户
    ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
    ssh-copy-id hadoop@hadoop101
    ssh-copy-id hadoop@hadoop102
@@ -127,6 +130,10 @@ tags: ['大数据','Hadoop']
    ```
 
 # 安装集群
+
+使用 MobaXterm 的 Multi-execution mode 功能同时操作三台服务器
+
+![image-20231224182417167](https://oss.lzhui.top/blog/image-20231224182417167.png)
 
 ## 安装 Java 11
 
@@ -145,7 +152,6 @@ tags: ['大数据','Hadoop']
     source /etc/profile
     java -version
     ```
-
 
 ## 安装 Hadoop 3.3.6
 
