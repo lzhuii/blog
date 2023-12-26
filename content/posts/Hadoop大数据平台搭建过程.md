@@ -4,7 +4,7 @@ date: '2023-12-20'
 tags: ['大数据','Hadoop']
 ---
 
-# 集群规划
+## 集群规划
 
 | 节点 | hadoop101     | hadoop102         | hadoop103       |
 | ---- | ------------- | ----------------- | --------------- |
@@ -15,19 +15,19 @@ tags: ['大数据','Hadoop']
 |      | NodeManager   | NodeManager       | NodeManager     |
 |      | MySQL、Hive   |                   |                 |
 
-# 安装系统
+## 安装系统
 
-## 下载系统镜像
+### 下载系统镜像
 
 [Anolis OS 8.8](https://mirrors.openanolis.cn/anolis/8.8/isos/GA/x86_64/AnolisOS-8.8-x86_64-minimal.iso)
 
-## 创建虚拟机
+### 创建虚拟机
 
 创建虚拟机 hadoop101
 
 ![image-20231224113345710](https://oss.lzhui.top/blog/image-20231224113345710.png)
 
-## 系统通用配置
+### 系统通用配置
 
 1. 安装必要的软件
 
@@ -81,7 +81,7 @@ tags: ['大数据','Hadoop']
     iptables -F
     ```
 
-## 创建 hadoop 用户
+### 创建 hadoop 用户
 
 1. 创建用户家目录
 
@@ -108,7 +108,7 @@ tags: ['大数据','Hadoop']
     hadoop  ALL=(ALL)       NOPASSWD: ALL
     ```
 
-## 克隆虚拟机
+### 克隆虚拟机
 
 1. 创建 hadoop101 的快照，克隆虚拟机 hadoop102、hadoop103，并修改为 4C 8G
 
@@ -126,13 +126,13 @@ tags: ['大数据','Hadoop']
    ssh-copy-id hadoop@hadoop103
    ```
 
-# 安装集群
+## 安装集群
 
 使用 MobaXterm 的 Multi-execution mode 功能同时操作三台服务器
 
 ![image-20231224182417167](https://oss.lzhui.top/blog/image-20231224182417167.png)
 
-## 安装 Java 8
+### 安装 Java 8
 
 1. 下载 [Java 8](https://www.oracle.com/cn/java/technologies/javase/javase8u211-later-archive-downloads.html)
 
@@ -150,7 +150,7 @@ tags: ['大数据','Hadoop']
     java -version
     ```
 
-## 安装 Hadoop 3.3.6
+### 安装 Hadoop 3.3.6
 
 1. 下载 [Hadoop 3.3.6](https://mirrors.bfsu.edu.cn/apache/hadoop/common/hadoop-3.3.6/hadoop-3.3.6.tar.gz)
 
@@ -296,7 +296,7 @@ tags: ['大数据','Hadoop']
 
 - [http://hadoop103:8088](http://hadoop103:8088)
 
-## 安装 MySQL 8.0
+### 安装 MySQL 8.0
 
 1. 安装 mysql-server
 
@@ -332,7 +332,7 @@ tags: ['大数据','Hadoop']
 
    
 
-## 安装 Hive 3.1.3
+### 安装 Hive 3.1.3
 
 1. 下载 [Hive 3.1.3](https://mirrors.bfsu.edu.cn/apache/hive/hive-3.1.3/apache-hive-3.1.3-bin.tar.gz)
 
