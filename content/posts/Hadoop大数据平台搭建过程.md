@@ -6,17 +6,11 @@ tags: ['大数据','Hadoop']
 
 # 集群规划
 
-| 节点 | hadoop101     | hadoop102         | hadoop103       |
-| ---- | ------------- | ----------------- | --------------- |
-| IP   | 192.168.1.101 | 192.168.1.102     | 192.168.1.103   |
-| 配置 | 8C 16G        | 4C 8G             | 4C 8G           |
-|      | NameNode      |                   |                 |
-|      |               | SecondaryNameNode |                 |
-|      | DataNode      | DataNode          | DataNode        |
-|      |               |                   | ResourceManager |
-|      | NodeManager   | NodeManager       | NodeManager     |
-
-
+| 节点 | hadoop101                                      | hadoop102                                        | hadoop103                                      |
+| ---- | ---------------------------------------------- | ------------------------------------------------ | ---------------------------------------------- |
+| IP   | 192.168.1.101                                  | 192.168.1.102                                    | 192.168.1.103                                  |
+| 配置 | 8C 16G                                         | 4C 8G                                            | 4C 8G                                          |
+| 组件 | NameNode<br />NodeManager<br />MySQL<br />Hive | SecondaryNameNode<br />DataNode<br />NodeManager | DataNode<br />ResourceManager<br />NodeManager |
 
 # 安装系统
 
@@ -135,18 +129,18 @@ tags: ['大数据','Hadoop']
 
 ![image-20231224182417167](https://oss.lzhui.top/blog/image-20231224182417167.png)
 
-## 安装 Java 11
+## 安装 Java 8
 
-1. 下载 [Java 11](https://www.oracle.com/java/technologies/javase/jdk11-archive-downloads.html)
+1. 下载 [Java 8](https://www.oracle.com/cn/java/technologies/javase/javase8u211-later-archive-downloads.html)
 
 2. 解压并配置环境变量
 
     ```bash
-    sudo tar xvf jdk-11.0.20_linux-x64_bin.tar.gz -C /usr/local/
+    sudo tar xvf jdk-8u381-linux-x64.tar.gz -C /usr/local/
     sudo vim /etc/profile.d/server.sh
     
-    # JAVA 17
-    export JAVA_HOME=/usr/local/jdk-11.0.20
+    # JAVA 8
+    export JAVA_HOME=/usr/local/jdk1.8.0_381
     export PATH=$PATH:$JAVA_HOME/bin
     
     source /etc/profile
@@ -161,8 +155,8 @@ tags: ['大数据','Hadoop']
 
     ```bash
     sudo tar xvf hadoop-3.3.6.tar.gz -C /usr/local/
-    
     sudo vim /etc/profile.d/server.sh
+    
     # HADOOP 3.3.6
     export HADOOP_HOME=/usr/local/hadoop-3.3.6
     export PATH=$PATH:$HADOOP_HOME/bin
@@ -177,7 +171,7 @@ tags: ['大数据','Hadoop']
     `etc/hadoop/hadoop-env.sh`
 
     ```bash
-    export JAVA_HOME=/usr/local/jdk-11.0.20
+    export JAVA_HOME=/usr/local/jdk1.8.0_381
     ```
 
     `etc/hadoop/core-site.xml`
@@ -198,6 +192,14 @@ tags: ['大数据','Hadoop']
             <name>hadoop.http.staticuser.user</name>
             <value>hadoop</value>
         </property>
+        <property>
+        	<name>hadoop.proxyuser.hadoop.hosts</name>
+        	<value>*</value>
+    	</property>
+    	<property>
+        	<name>hadoop.proxyuser.hadoop.groups</name>
+        	<value>*</value>
+    	</property>
     </configuration>
     ```
 
@@ -290,3 +292,150 @@ tags: ['大数据','Hadoop']
 - [http://hadoop101:9870](http://hadoop101:9870)
 
 - [http://hadoop103:8088](http://hadoop103:8088)
+
+## 安装 MySQL 8.0
+
+1. 安装 mysql-server
+
+   ```bash
+   sudo dnf install -y mysql-server
+   ```
+
+2. 启动 mysqld
+
+   ```bash
+   sudo systemctl start mysqld
+   ```
+
+3. 修改 root 密码
+
+   ```bash
+   sudo mysqladmin -u root -p password
+   # 默认为空
+   # 123456
+   # 123456
+   ```
+
+4. 创建数据库并开启远程访问
+
+   ```bash
+   mysql -uroot -p123456
+   use mysql;
+   update user set host = '%' where user = 'root';
+   flush privileges;
+   create database metastore;
+   exit
+   ```
+
+   
+
+## 安装 Hive 3.1.3
+
+1. 下载 [Hive 3.1.3](https://mirrors.bfsu.edu.cn/apache/hive/hive-3.1.3/apache-hive-3.1.3-bin.tar.gz)
+
+2. 解压并配置环境变量
+
+   ```bash
+   sudo tar xvf apache-hive-3.1.3-bin.tar.gz -C /usr/local
+   sudo mv /usr/local/apache-hive-3.1.3-bin /usr/local/hive-3.1.3
+   sudo chown -R hadoop:hadoop /usr/local/hive-3.1.3
+   sudo vim /etc/profile.d/server.sh
+   
+   # HIVE 3.1.3
+   export HIVE_HOME=/usr/local/hive-3.1.3
+   export PATH=$PATH:$HIVE_HOME/bin
+   
+   source /etc/profile
+   hive --version
+   ```
+
+3. 创建 hive 配置文件 `conf/hive-site.xml`
+
+   ```xml
+   <?xml version="1.0"?>
+   <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+   
+   <configuration>
+     <!-- jdbc 连接的 URL -->
+     <property>
+       <name>javax.jdo.option.ConnectionURL</name>
+       <value>jdbc:mysql://hadoop101:3306/metastore?useSSL=false</value>
+     </property>
+     <!-- jdbc 连接的 Driver-->
+     <property>
+       <name>javax.jdo.option.ConnectionDriverName</name>
+       <value>com.mysql.jdbc.Driver</value>
+     </property>
+     <!-- jdbc 连接的 username-->
+     <property>
+       <name>javax.jdo.option.ConnectionUserName</name>
+       <value>root</value>
+     </property>
+     <!-- jdbc 连接的 password -->
+     <property>
+       <name>javax.jdo.option.ConnectionPassword</name>
+       <value>123456</value>
+     </property>
+     <!-- Hive 元数据存储版本的验证 -->
+     <property>
+       <name>hive.metastore.schema.verification</name>
+       <value>false</value>
+     </property>
+     <!-- 元数据存储授权 -->
+     <property>
+       <name>hive.metastore.event.db.notification.api.auth</name>
+       <value>false</value>
+     </property>
+     <!-- Hive 默认在 HDFS 的工作目录 -->
+     <property>
+       <name>hive.metastore.warehouse.dir</name>
+       <value>/user/hive/warehouse</value>
+     </property>
+     <!-- 指定存储元数据要连接的地址 -->
+     <property>
+       <name>hive.metastore.uris</name>
+       <value>thrift://hadoop101:9083</value>
+     </property>
+     <!-- 指定 hiveserver2 连接的 host -->
+     <property>
+       <name>hive.server2.thrift.bind.host</name>
+       <value>hadoop101</value>
+     </property>
+     <!-- 指定 hiveserver2 连接的端口号 -->
+     <property>
+       <name>hive.server2.thrift.port</name>
+       <value>10000</value>
+     </property>
+     <!--打印当前库和表头-->
+     <property>
+       <name>hive.cli.print.header</name>
+       <value>true</value>
+     </property>
+     <property>
+       <name>hive.cli.print.current.db</name>
+       <value>true</value>
+     </property>
+   </configuration>
+   ```
+
+4. 安装 mysql jdbc 驱动
+
+   ```bash
+   sudo wget -O $HIVE_HOME/lib/mysql-connector-java-5.1.49.jar https://repo1.maven.org/maven2/mysql/mysql-connector-java/5.1.49/mysql-connector-java-5.1.49.jar
+   ```
+
+5. 初始化 hive 元数据库
+
+   ```bash
+   schematool -initSchema -dbType mysql -verbose
+   ```
+
+6. 启动 hive
+
+   ```bash
+   mkdir -p $HIVE_HOME/log
+   nohup hive --service metastore > $HIVE_HOME/log/metastore.log 2>&1 &
+   nohup hive --service hiveserver2 > $HIVE_HOME/log/hiveserver2.log 2>&1 & 
+   ```
+
+   
