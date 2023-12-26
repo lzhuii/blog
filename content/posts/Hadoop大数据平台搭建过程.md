@@ -32,10 +32,9 @@ tags: ['大数据','Hadoop']
 1. 安装必要的软件
 
     ```bash
-    dnf update
     dnf install -y tar vim wget
     ```
-
+    
 2. 配置 hosts
 
     ```bash
@@ -171,13 +170,21 @@ tags: ['大数据','Hadoop']
 
 3. 修改配置文件
 
-    `etc/hadoop/hadoop-env.sh`
+    - **hadoop-env.sh**
+
+    ```bash
+    vim $HADOOP_HOME/etc/hadoop/hadoop-env.sh
+    ```
 
     ```bash
     export JAVA_HOME=/usr/local/jdk1.8.0_381
     ```
 
-    `etc/hadoop/core-site.xml`
+    - **core-site.xml**
+
+    ```bash
+    vim $HADOOP_HOME/etc/hadoop/core-site.xml
+    ```
 
     ```xml
     <?xml version="1.0" encoding="UTF-8"?>
@@ -196,17 +203,21 @@ tags: ['大数据','Hadoop']
             <value>hadoop</value>
         </property>
         <property>
-        	<name>hadoop.proxyuser.hadoop.hosts</name>
-        	<value>*</value>
-    	</property>
-    	<property>
-        	<name>hadoop.proxyuser.hadoop.groups</name>
-        	<value>*</value>
-    	</property>
+            <name>hadoop.proxyuser.hadoop.hosts</name>
+            <value>*</value>
+        </property>
+        <property>
+            <name>hadoop.proxyuser.hadoop.groups</name>
+            <value>*</value>
+        </property>
     </configuration>
     ```
 
-    `etc/hadoop/hdfs-site.xml`
+    - **hdfs-site.xml**
+
+    ```bash
+    vim $HADOOP_HOME/etc/hadoop/hdfs-site.xml
+    ```
 
     ```xml
     <?xml version="1.0" encoding="UTF-8"?>
@@ -223,7 +234,11 @@ tags: ['大数据','Hadoop']
     </configuration>
     ```
 
-    `etc/hadoop/mapred-site.xml`
+    - **mapred-site.xml**
+
+    ```bash
+    vim $HADOOP_HOME/etc/hadoop/mapred-site.xml
+    ```
 
     ```xml
     <?xml version="1.0" encoding="UTF-8"?>
@@ -236,7 +251,11 @@ tags: ['大数据','Hadoop']
     </configuration>
     ```
 
-    `etc/hadoop/yarn-site.xml`
+    - **yarn-site.xml**
+
+    ```bash
+    vim $HADOOP_HOME/etc/hadoop/yarn-site.xml
+    ```
 
     ```xml
     <?xml version="1.0" encoding="UTF-8"?>
@@ -257,7 +276,11 @@ tags: ['大数据','Hadoop']
     </configuration>
     ```
 
-    `etc/hadoop/workers`
+    - **workers**
+
+    ```bash
+    vim $HADOOP_HOME/etc/hadoop/workers
+    ```
 
     ```bash
     hadoop101
@@ -277,6 +300,9 @@ tags: ['大数据','Hadoop']
     ```bash
     # hadoop101
     start-dfs.sh
+    
+    hdfs dfs -mkdir -p /user/hadoop
+    hdfs dfs -chown hadoop:hadoop /user/hadoop
     ```
 
 6. 启动 YARN
@@ -298,7 +324,7 @@ tags: ['大数据','Hadoop']
 
 ### 安装 MySQL 8.0
 
-1. 安装 mysql-server
+1. hadoop101 节点安装 mysql-server
 
    ```bash
    sudo dnf install -y mysql-server
@@ -352,93 +378,84 @@ tags: ['大数据','Hadoop']
    hive --version
    ```
 
-3. 创建 hive 配置文件 `conf/hive-site.xml`
+3. 创建 hive 配置文件
+
+   ```bash
+   vim $HIVE_HOME/conf/hive-site.xml
+   ```
 
    ```xml
    <?xml version="1.0"?>
    <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
    
    <configuration>
-     <!-- jdbc 连接的 URL -->
-     <property>
-       <name>javax.jdo.option.ConnectionURL</name>
-       <value>jdbc:mysql://hadoop101:3306/metastore?useSSL=false</value>
-     </property>
-     <!-- jdbc 连接的 Driver-->
-     <property>
-       <name>javax.jdo.option.ConnectionDriverName</name>
-       <value>com.mysql.jdbc.Driver</value>
-     </property>
-     <!-- jdbc 连接的 username-->
-     <property>
-       <name>javax.jdo.option.ConnectionUserName</name>
-       <value>root</value>
-     </property>
-     <!-- jdbc 连接的 password -->
-     <property>
-       <name>javax.jdo.option.ConnectionPassword</name>
-       <value>123456</value>
-     </property>
-     <!-- Hive 元数据存储版本的验证 -->
-     <property>
-       <name>hive.metastore.schema.verification</name>
-       <value>false</value>
-     </property>
-     <!-- 元数据存储授权 -->
-     <property>
-       <name>hive.metastore.event.db.notification.api.auth</name>
-       <value>false</value>
-     </property>
-     <!-- Hive 默认在 HDFS 的工作目录 -->
-     <property>
-       <name>hive.metastore.warehouse.dir</name>
-       <value>/user/hive/warehouse</value>
-     </property>
-     <!-- 指定存储元数据要连接的地址 -->
-     <property>
-       <name>hive.metastore.uris</name>
-       <value>thrift://hadoop101:9083</value>
-     </property>
-     <!-- 指定 hiveserver2 连接的 host -->
-     <property>
-       <name>hive.server2.thrift.bind.host</name>
-       <value>hadoop101</value>
-     </property>
-     <!-- 指定 hiveserver2 连接的端口号 -->
-     <property>
-       <name>hive.server2.thrift.port</name>
-       <value>10000</value>
-     </property>
-     <!--打印当前库和表头-->
-     <property>
-       <name>hive.cli.print.header</name>
-       <value>true</value>
-     </property>
-     <property>
-       <name>hive.cli.print.current.db</name>
-       <value>true</value>
-     </property>
+       <property>
+           <name>javax.jdo.option.ConnectionURL</name>
+           <value>jdbc:mysql://hadoop101:3306/metastore?useSSL=false</value>
+       </property>
+       <property>
+           <name>javax.jdo.option.ConnectionDriverName</name>
+           <value>com.mysql.jdbc.Driver</value>
+       </property>
+       <property>
+           <name>javax.jdo.option.ConnectionUserName</name>
+           <value>root</value>
+       </property>
+       <property>
+           <name>javax.jdo.option.ConnectionPassword</name>
+           <value>123456</value>
+       </property>
+       <property>
+           <name>hive.metastore.schema.verification</name>
+           <value>false</value>
+       </property>
+       <property>
+           <name>hive.metastore.event.db.notification.api.auth</name>
+           <value>false</value>
+       </property>
+       <property>
+           <name>hive.metastore.warehouse.dir</name>
+           <value>/user/hive/warehouse</value>
+       </property>
+       <property>
+           <name>hive.metastore.uris</name>
+           <value>thrift://hadoop101:9083</value>
+       </property>
+       <property>
+           <name>hive.server2.thrift.bind.host</name>
+           <value>hadoop101</value>
+       </property>
+       <property>
+           <name>hive.server2.thrift.port</name>
+           <value>10000</value>
+       </property>
+       <property>
+           <name>hive.cli.print.header</name>
+           <value>true</value>
+       </property>
+       <property>
+           <name>hive.cli.print.current.db</name>
+           <value>true</value>
+       </property>
    </configuration>
    ```
 
 4. 安装 mysql jdbc 驱动
 
    ```bash
-   sudo wget -O $HIVE_HOME/lib/mysql-connector-java-5.1.49.jar https://repo1.maven.org/maven2/mysql/mysql-connector-java/5.1.49/mysql-connector-java-5.1.49.jar
+   sudo wget -O $HIVE_HOME/lib/mysql-connector-java-5.1.49.jar https://oss.lzhui.top/blog/mysql-connector-java-5.1.49.jar
    ```
 
-5. 初始化 hive 元数据库
+5. 在 hadoop101 节点初始化 hive 元数据库
 
    ```bash
    schematool -initSchema -dbType mysql -verbose
    ```
 
-6. 启动 hive
+6. 在 hadoop101 节点启动 hive
 
    ```bash
    mkdir -p $HIVE_HOME/log
    nohup hive --service metastore > $HIVE_HOME/log/metastore.log 2>&1 &
-   nohup hive --service hiveserver2 > $HIVE_HOME/log/hiveserver2.log 2>&1 & 
+   nohup hive --service hiveserver2 > $HIVE_HOME/log/hiveserver2.log 2>&1 &
    ```
-
-   
