@@ -6,11 +6,14 @@ tags: ['大数据','Hadoop']
 
 # 集群规划
 
-| 节点 | hadoop101                                      | hadoop102                                        | hadoop103                                      |
-| ---- | ---------------------------------------------- | ------------------------------------------------ | ---------------------------------------------- |
-| IP   | 192.168.1.101                                  | 192.168.1.102                                    | 192.168.1.103                                  |
-| 配置 | 8C 16G                                         | 4C 8G                                            | 4C 8G                                          |
-| 组件 | NameNode<br />NodeManager<br />MySQL<br />Hive | SecondaryNameNode<br />DataNode<br />NodeManager | DataNode<br />ResourceManager<br />NodeManager |
+| 节点 | hadoop101     | hadoop102         | hadoop103       |
+| ---- | ------------- | ----------------- | --------------- |
+| IP   | 192.168.1.101 | 192.168.1.102     | 192.168.1.103   |
+| 配置 | 8C 16G        | 4C 8G             | 4C 8G           |
+| 组件 | NameNode      | SecondaryNameNode | ResourceManager |
+|      | DataNode      | DataNode          | DataNode        |
+|      | NodeManager   | NodeManager       | NodeManager     |
+|      | MySQL、Hive   |                   |                 |
 
 # 安装系统
 
