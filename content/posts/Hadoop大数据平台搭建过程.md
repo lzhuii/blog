@@ -29,10 +29,15 @@ tags: ['大数据','Hadoop']
 
 ### 系统通用配置
 
-1. 安装必要的软件
+1. 安装必要的软件，关闭防火墙
 
     ```bash
     dnf install -y tar vim wget
+    
+    systemctl stop firewalld
+    systemctl disable firewalld
+    setenforce 0
+    iptables -F
     ```
     
 2. 配置 hosts
@@ -70,42 +75,25 @@ tags: ['大数据','Hadoop']
     GATEWAY=192.168.1.1
     DNS1=192.168.1.1
     ```
-    
-5. 关闭防火墙
-
-    ```bash
-    systemctl stop firewalld
-    systemctl disable firewalld
-    setenforce 0
-    iptables -F
-    ```
 
 ### 创建 hadoop 用户
 
-1. 创建用户家目录
+1. 创建用户
 
-    ```bash
-    mkdir /user
-    ```
+   ```bash
+   mkdir /user
+   useradd -d /user/hadoop -m hadoop
+   passwd hadoop
+   123456
+   123456
+   ```
 
-2. 创建用户
+2. 添加 sudo 权限
 
-    ```bash
-    useradd -d /user/hadoop -m hadoop
-    ```
-
-3. 设置密码
-
-    ```bash
-    passwd hadoop
-    ```
-
-4. 添加 sudo 权限
-
-    ```bash
-    visudo
-    hadoop  ALL=(ALL)       NOPASSWD: ALL
-    ```
+   ```bash
+   visudo
+   hadoop  ALL=(ALL)       NOPASSWD: ALL
+   ```
 
 ### 克隆虚拟机
 
@@ -120,9 +108,9 @@ tags: ['大数据','Hadoop']
    ```bash
    # hadoop 用户
    ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
-   ssh-copy-id hadoop@hadoop101
-   ssh-copy-id hadoop@hadoop102
-   ssh-copy-id hadoop@hadoop103
+   ssh-copy-id hadoop101
+   ssh-copy-id hadoop102
+   ssh-copy-id hadoop103
    ```
 
 ## 安装集群
@@ -288,26 +276,18 @@ tags: ['大数据','Hadoop']
     hadoop103
     ```
 
-4. 初始化
+4. 在 hadoop101 节点启动 HDFS、在 hadoop103 节点启动 YARN
 
     ```bash
     # hadoop101
     hdfs namenode -format
-    ```
-
-5. 启动 HDFS
-
-    ```bash
-    # hadoop101
     start-dfs.sh
     
     hdfs dfs -mkdir -p /user/hadoop
-    hdfs dfs -chown hadoop:hadoop /user/hadoop
-    ```
-
-6. 启动 YARN
-
-    ```bash
+    hdfs dfs -chown -R hadoop:hadoop /user/hadoop
+    hdfs dfs -mkdir -p /user/hive/warehouse
+    hdfs dfs -chown -R hadoop:hadoop /user/hive
+    
     # hadoop103
     start-yarn.sh
     ```
@@ -324,28 +304,20 @@ tags: ['大数据','Hadoop']
 
 ### 安装 MySQL 8.0
 
-1. hadoop101 节点安装 mysql-server
+1. 安装 mysql-server 并修改 root 密码
 
    ```bash
+   # 安装 mysql-server
    sudo dnf install -y mysql-server
-   ```
-
-2. 启动 mysqld
-
-   ```bash
+   # 启动 mysqld 服务
    sudo systemctl start mysqld
-   ```
-
-3. 修改 root 密码
-
-   ```bash
+   # 修改 root 密码
    sudo mysqladmin -u root -p password
    # 默认为空
    # 123456
    # 123456
-   ```
 
-4. 创建数据库并开启远程访问
+2. 开启远程访问，创建 hive 元数据库
 
    ```bash
    mysql -uroot -p123456
@@ -355,8 +327,6 @@ tags: ['大数据','Hadoop']
    create database metastore;
    exit
    ```
-
-   
 
 ### 安装 Hive 3.1.3
 
@@ -440,22 +410,60 @@ tags: ['大数据','Hadoop']
    </configuration>
    ```
 
-4. 安装 mysql jdbc 驱动
+4. 在 hadoop101 节点初始化 hive 元数据库，启动 hive
 
    ```bash
-   sudo wget -O $HIVE_HOME/lib/mysql-connector-java-5.1.49.jar https://oss.lzhui.top/blog/mysql-connector-java-5.1.49.jar
-   ```
-
-5. 在 hadoop101 节点初始化 hive 元数据库
-
-   ```bash
+   wget -O $HIVE_HOME/lib/mysql-connector-java-5.1.49.jar https://oss.lzhui.top/common/mysql-connector-java-5.1.49.jar
    schematool -initSchema -dbType mysql -verbose
-   ```
-
-6. 在 hadoop101 节点启动 hive
-
-   ```bash
    mkdir -p $HIVE_HOME/log
    nohup hive --service metastore > $HIVE_HOME/log/metastore.log 2>&1 &
    nohup hive --service hiveserver2 > $HIVE_HOME/log/hiveserver2.log 2>&1 &
    ```
+
+## 快速搭建脚本
+
+```bash
+# hadoop101 hadoop102 hadoop103
+sudo tar xvf jdk-8u381-linux-x64.tar.gz -C /usr/local
+sudo tar xvf hadoop-3.3.6.tar.gz -C /usr/local
+sudo tar xvf apache-hive-3.1.3-bin.tar.gz -C /usr/local
+sudo mv /usr/local/apache-hive-3.1.3-bin /usr/local/hive-3.1.3
+sudo chown -R hadoop:hadoop /usr/local/hive-3.1.3
+sudo wget -O /etc/profile.d/server.sh https://oss.lzhui.top/common/server.sh
+source /etc/profile
+java -version
+hadoop version
+hive --version
+wget -O $HADOOP_HOME/etc/hadoop/hadoop-env.sh https://oss.lzhui.top/common/hadoop-env.sh
+wget -O $HADOOP_HOME/etc/hadoop/workers https://oss.lzhui.top/common/workers
+wget -O $HADOOP_HOME/etc/hadoop/core-site.xml https://oss.lzhui.top/common/core-site.xml
+wget -O $HADOOP_HOME/etc/hadoop/hdfs-site.xml https://oss.lzhui.top/common/hdfs-site.xml
+wget -O $HADOOP_HOME/etc/hadoop/mapred-site.xml https://oss.lzhui.top/common/mapred-site.xml
+wget -O $HADOOP_HOME/etc/hadoop/yarn-site.xml https://oss.lzhui.top/common/yarn-site.xml
+wget -O $HIVE_HOME/conf/hive-site.xml https://oss.lzhui.top/common/hive-site.xml
+wget -O $HIVE_HOME/lib/mysql-connector-java-5.1.49.jar https://oss.lzhui.top/common/mysql-connector-java-5.1.49.jar
+# hadoop101
+hdfs namenode -format
+start-dfs.sh
+hdfs dfs -mkdir -p /user/hadoop
+hdfs dfs -chown -R hadoop:hadoop /user/hadoop
+hdfs dfs -mkdir -p /user/hive/warehouse
+hdfs dfs -chown -R hadoop:hadoop /user/hive
+sudo dnf install -y mysql-server
+sudo systemctl start mysqld
+mysql -u root
+alter user 'root'@'localhost' identified by '123456';
+use mysql;
+update user set host = '%' where user = 'root';
+flush privileges;
+create database metastore;
+exit
+schematool -initSchema -dbType mysql -verbose
+mkdir -p $HIVE_HOME/log
+nohup hive --service metastore > $HIVE_HOME/log/metastore.log 2>&1 &
+nohup hive --service hiveserver2 > $HIVE_HOME/log/hiveserver2.log 2>&1 &
+
+# hadoop103
+start-yarn.sh
+```
+
