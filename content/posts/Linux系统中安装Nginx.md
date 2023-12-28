@@ -80,8 +80,8 @@ tags: ['Linux','Nginx']
    
          server_name lzhui.top;
    
-         ssl_certificate cert/lzhui.top.pem;
-         ssl_certificate_key cert/lzhui.top.key;
+         ssl_certificate /usr/local/nginx/cert/lzhui.top.pem;
+         ssl_certificate_key /usr/local/nginx/cert/lzhui.top.key;
    
          ssl_session_cache shared:SSL:1m;
          ssl_session_timeout 5m;
@@ -90,12 +90,12 @@ tags: ['Linux','Nginx']
          ssl_prefer_server_ciphers on;
    
          location / {
-            root html/blog/public;
+            root /usr/local/nginx/html/blog/public;
             index index.html index.htm;
          }
       }
    
-      include conf.d/*.conf;
+      include /usr/local/nginx/conf.d/*.conf;
    }
    ```
 

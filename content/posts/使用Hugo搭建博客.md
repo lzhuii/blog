@@ -8,7 +8,7 @@ date: '2023-12-04'
    https://github.com/gohugoio/hugo
 
    ```bash
-   tar xvf hugo_extended_0.120.4_linux-amd64.tar.gz
+   tar xvf hugo_extended_0.121.1_linux-amd64.tar.gz
    sudo mv hugo /usr/local/bin
    ```
 

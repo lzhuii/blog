@@ -15,7 +15,7 @@ tags: ['Linux',MinIO']
    ```bash
    sudo useradd minio
    sudo chown -R minio:minio /usr/local/minio
-   su minio
+   sudo su minio
    ```
 
 3. 下载 MinIO
@@ -23,6 +23,8 @@ tags: ['Linux',MinIO']
    ```bash
    wget -O /usr/local/minio/bin/minio https://dl.min.io/server/minio/release/linux-amd64/minio
    wget -O /usr/local/minio/bin/mc https://dl.min.io/client/mc/release/linux-amd64/mc
+   chmod +x minio
+   chmod +x mc
    ```
 
 4. 创建 MinIO 配置文件
@@ -37,7 +39,7 @@ tags: ['Linux',MinIO']
    MINIO_VOLUMES="/usr/local/minio/data"
    MINIO_SERVER_URL="https://oss.lzhui.top"
    MINIO_BROWSER_REDIRECT_URL="https://oss.lzhui.top/minio/ui"
-   MINIO_OPTS="--address 0.0.0.0:9000 --console-address 0.0.0.0:9001"
+   MINIO_OPTS="--address :9000 --console-address :9001"
    ```
 
 5. 创建 MinIO 服务
@@ -55,11 +57,10 @@ tags: ['Linux',MinIO']
    AssertFileIsExecutable=/usr/local/minio/bin/minio
    
    [Service]
-   WorkingDirectory=/usr/local
    User=minio
    Group=minio
    ProtectProc=invisible
-   EnvironmentFile=-/user/local/minio/conf/minio.conf
+   EnvironmentFile=-/usr/local/minio/conf/minio.conf
    ExecStart=/usr/local/minio/bin/minio server $MINIO_OPTS $MINIO_VOLUMES
    Restart=always
    LimitNOFILE=65536
@@ -70,11 +71,11 @@ tags: ['Linux',MinIO']
    [Install]
    WantedBy=multi-user.target
    ```
-
+   
 6. 配置 Nginx 代理
 
    ```bash
-   sudo vim /usr/local/nginx/conf/conf.d/minio.conf
+   sudo vim /usr/local/nginx/conf.d/minio.conf
    ```
 
    ```bash
@@ -84,8 +85,8 @@ tags: ['Linux',MinIO']
    
        server_name oss.lzhui.top;
    
-       ssl_certificate cert/lzhui.top.pem;
-       ssl_certificate_key cert/lzhui.top.key;
+       ssl_certificate /usr/local/nginx/cert/lzhui.top.pem;
+       ssl_certificate_key /usr/local/nginx/cert/lzhui.top.key;
    
        ssl_session_cache shared:SSL:1m;
        ssl_session_timeout 5m;
@@ -148,8 +149,9 @@ tags: ['Linux',MinIO']
 7. 启动
 
    ```bash
+   sudo systemctl restart nginx
    sudo systemctl start minio
    sudo systemctl enable minio
    ```
-
+   
    

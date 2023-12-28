@@ -15,6 +15,7 @@ tags: ['Linux','Git']
    CREATE DATABASE gitea CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci';
    GRANT ALL PRIVILEGES ON gitea.* TO 'gitea';
    FLUSH PRIVILEGES;
+   EXIT
    ```
 
 2. 创建工作路径，下载 Gitea，安装 Git，创建 git 用户
@@ -61,7 +62,7 @@ tags: ['Linux','Git']
 4. 配置 Nginx 代理
 
    ```bash
-   sudo vim /usr/local/nginx/conf/conf.d/gitea.conf
+   sudo vim /usr/local/nginx/conf.d/gitea.conf
    ```
 
    ```nginx
@@ -71,8 +72,8 @@ tags: ['Linux','Git']
        
        server_name git.lzhui.top;
    
-       ssl_certificate cert/lzhui.top.pem;
-       ssl_certificate_key cert/lzhui.top.key;
+       ssl_certificate /usr/local/nginx/cert/lzhui.top.pem;
+       ssl_certificate_key /usr/local/nginx/cert/lzhui.top.key;
    
        ssl_session_cache shared:SSL:1m;
        ssl_session_timeout 5m;

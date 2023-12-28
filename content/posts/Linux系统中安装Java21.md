@@ -4,7 +4,7 @@ date: '2023-11-30'
 tags: ['Linux','Java']
 ---
 
-1. 下载  Java 17
+1. 下载  Java 21
 
    ```bash
    wget https://download.oracle.com/java/21/latest/jdk-21_linux-x64_bin.tar.gz
