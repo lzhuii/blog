@@ -149,6 +149,7 @@ tags: ['Linux','Git']
    [Service]
    User=git
    Group=git
+   Environment="PATH=/usr/local/bin:/usr/bin:/bin:/home/git/.local/bin:/usr/local/node-v20.10.0-linux-x64/bin"
    ExecStart=/usr/local/act_runner/bin/act_runner daemon --config /usr/local/act_runner/conf/config.yaml
    ExecReload=/bin/kill -s HUP $MAINPID
    WorkingDirectory=/usr/local/act_runner
@@ -161,9 +162,11 @@ tags: ['Linux','Git']
 
 10. 启动 act_runner
 
-   ```bash
-   sudo systemctl start act_runner
-   sudo systemctl enable act_runner 
-   ```
+    ```bash
+    sudo systemctl start act_runner
+    sudo systemctl enable act_runner
+    ```
+
+    
 
    
