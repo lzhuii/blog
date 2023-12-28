@@ -135,10 +135,35 @@ tags: ['Linux','Git']
    # 标签 linux
    ```
 
-9. 启动 act_runner
+9. 创建 act_runner 服务
 
    ```bash
-   nohup /usr/local/act_runner/bin/act_runner daemon --config /usr/local/act_runner/conf/config.yaml > /usr/local/act_runner/log/act_runner.log 2>&1 &
+   sudo vim /etc/systemd/system/act_runner.service
+   ```
+
+   ```bash
+   [Unit]
+   Description=Gitea Actions runner
+   Documentation=https://gitea.com/gitea/act_runner
+   
+   [Service]
+   User=git
+   Group=git
+   ExecStart=/usr/local/act_runner/bin/act_runner daemon --config /usr/local/act_runner/conf/config.yaml
+   ExecReload=/bin/kill -s HUP $MAINPID
+   WorkingDirectory=/usr/local/act_runner
+   TimeoutSec=0
+   RestartSec=10
+   Restart=always
+   
+   [Install]
+   WantedBy=multi-user.target
+
+10. 启动 act_runner
+
+   ```bash
+   sudo systemctl start act_runner
+   sudo systemctl enable act_runner 
    ```
 
    
