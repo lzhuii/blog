@@ -6,6 +6,7 @@ jobs:
   Explore-Gitea-Actions:
     runs-on: linux
     steps:
+      - run: echo $PATH
       - name: 拉取代码
         uses: https://gitee.com/lzhuii/checkout@v4
       - name: 静态化网站
