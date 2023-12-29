@@ -1,7 +1,7 @@
 ---
-title: 'Hadoop 大数据平台搭建过程'
+title: 'Hadoop 大数据平台搭建过程（集群）'
 date: '2023-12-20'
-tags: ['大数据','Hadoop','HIVE']
+tags: ['大数据','Hadoop','Hive','Spark']
 ---
 
 ## 集群规划
@@ -419,6 +419,19 @@ tags: ['大数据','Hadoop','HIVE']
    nohup hive --service metastore > $HIVE_HOME/log/metastore.log 2>&1 &
    nohup hive --service hiveserver2 > $HIVE_HOME/log/hiveserver2.log 2>&1 &
    ```
+
+### 安装 Spark 3.5.0
+
+1. 下载 [Spark 3.5.0](https://mirrors.bfsu.edu.cn/apache/spark/spark-3.5.0/spark-3.5.0-bin-hadoop3-scala2.13.tgz)
+
+2. 解压并配置环境变量
+
+   ```bash
+   sudo tar xvf spark-3.5.0-bin-hadoop3-scala2.13.tgz -C /usr/local
+   sudo mv /usr/local/spark-3.5.0-bin-hadoop3-scala2.13 /usr/local/spark-3.5.0
+   ```
+
+   
 
 ## 快速搭建脚本
 
