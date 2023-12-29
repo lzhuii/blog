@@ -1,7 +1,7 @@
 ---
 title: 'Hadoop 大数据平台搭建过程（单机）'
 date: '2023-12-29'
-tags: ['大数据','Hadoop','Hive','Spark']. a阿坝州
+tags: ['大数据','Hadoop','Hive','Spark']
 ---
 
 ## 系统配置
