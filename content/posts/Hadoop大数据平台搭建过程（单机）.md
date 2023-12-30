@@ -174,6 +174,33 @@ hdfs dfs -mkdir -p /user/{hadoop,hive/warehouse,tez}
 hdfs dfs -chown -R hadoop:hadoop /user
 ```
 
+### Tez
+
+```bash
+tar xvf apache-tez-0.10.2-bin.tar.gz
+sudo mv apache-tez-0.10.2-bin /opt/tez
+cd /opt/tez/share
+hdfs dfs -put tez.tar.gz /user/tez
+```
+
+$HADOOP_HOME/etc/hadoop/tez-site.xml
+
+```xml
+<configuration>
+  <property>
+    <name>tez.lib.uris</name>
+    <value>${fs.defaultFS}/user/tez/tez.tar.gz</value>
+  </property>
+</configuration>
+```
+
+```bash
+vim $HADOOP_HOME/etc/hadoop/hadoop-env.sh
+
+export TEZ_HOME=/opt/tez
+export HADOOP_CLASSPATH=$HADOOP_CLASSPATH:$TEZ_HOME/*:$TEZ_HOME/lib/*
+```
+
 ### Hive
 
 ```bash
@@ -186,8 +213,6 @@ export HIVE_HOME=/opt/hive
 export PATH=$PATH:$HIVE_HOME/bin
 
 source /etc/profile
-
-beeline -u jdbc:hive2://data:10000 -n hadoop
 ```
 
 $HIVE_HOME/conf/hive-site.xml
@@ -255,37 +280,8 @@ schematool -initSchema -dbType mysql -verbose
 mkdir -p $HIVE_HOME/log
 nohup hive --service metastore > $HIVE_HOME/log/metastore.log 2>&1 &
 nohup hive --service hiveserver2 > $HIVE_HOME/log/hiveserver2.log 2>&1 &
+beeline -u jdbc:hive2://data:10000 -n hadoop
 ```
-
-### Tez
-
-```bash
-tar xvf apache-tez-0.10.2-bin.tar.gz
-sudo mv apache-tez-0.10.2-bin /opt/tez
-cd /opt/tez/share
-hdfs dfs -put tez.tar.gz /user/tez
-```
-
-$HADOOP_HOME/etc/hadoop/tez-site.xml
-
-```xml
-<configuration>
-  <property>
-    <name>tez.lib.uris</name>
-    <value>hdfs://data:9000/user/tez/tez.tar.gz</value>
-  </property>
-</configuration>
-```
-
-```bash
-sudo vim /etc/profile.d/server.sh
-# TEZ
-export TEZ_CONF_DIR=$HADOOP_CONF_DIR
-export TEZ_JARS=/opt/tez/*:/opt/tez/lib/*
-export HADOOP_CLASSPATH=$TEZ_CONF_DIR:$TEZ_JARS:$HADOOP_CLASSPATH
-```
-
-
 
 ### HBase
 
