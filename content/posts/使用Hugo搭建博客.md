@@ -23,8 +23,10 @@ date: '2023-12-04'
 3. 下载主题
 
    ```bash
-   cd /usr/local/nginx/html/blog/themes
-   git clone https://gitee.com/lzhuii/hugo-PaperMod.git PaperMod
+   cd /usr/local/nginx/html/blog/
+   git submodule add --depth=1 https://github.com/adityatelange/hugo-PaperMod.git themes/PaperMod
+   git submodule update --init --recursive
+   git submodule update --remote --merge
    ```
 
 4. 修改配置文件

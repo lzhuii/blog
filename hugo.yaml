@@ -1,117 +1,161 @@
-baseURL: "https://lzhui.top/"
+# 网址
+baseURL: https://lzhui.top/
+# 网站标题
 title: 空影星辉
-paginate: 5
-theme: PaperMod
-languageCode: zh-cn
+# 语言
 defaultContentLanguage: zh
+# 时区
 timeZone: Asia/Shanghai
+# 主题
+theme: PaperMod
 
+# 生成 robots.txt
 enableRobotsTXT: true
+# 构建时包含草稿内容
 buildDrafts: false
+# 构建时包含未来内容
 buildFuture: false
+# 构建时包含过期内容
 buildExpired: false
+# 构建时清理目录
 cleanDestinationDir: true
 
-googleAnalytics: UA-123-45
+# 菜单
+menu:
+  main:
+    - identifier: tags
+      name: 标签
+      url: /tags/
+      weight: 1
+    - identifier: archives
+      name: 时间轴
+      url: /archives/
+      weight: 2
+    - identifier: search
+      name: 搜索
+      url: /search/
+      weight: 3
 
-minify:
-  disableXML: true
-  minifyOutput: true
-  
+# 模板参数
+params:
+  # 环境
+  env: production
+  # 网站标题
+  title: 空影星辉
+  # 网站描述
+  description: 一个正在路上的程序猿
+  # 网站关键字
+  keywords: [博客, Hugo, PaperMod]
+  # 略缩图
+  images: [/avatar.jpg]
+  # 作者
+  author: 空影星辉
+  # 日期格式
+  DateFormat: "2006年01月02日 15:04:05"
+  # 默认主题
+  defaultTheme: auto
+  # 禁用主题切换
+  disableThemeToggle: false
+  # 显示阅读时间
+  ShowReadingTime: true
+  # 显示分享按钮
+  ShowShareButtons: true
+  # 显示文章 前一个/后一个 按钮
+  ShowPostNavLinks: true
+  # 显示面包屑导航
+  ShowBreadCrumbs: true
+  # 显示代码复制按钮
+  ShowCodeCopyButtons: true
+  # 显示单词计数
+  ShowWordCount: true
+  # 显示 RSS 图标
+  ShowRssButtonInSectionTermList: true
+  # 使用 Hugo 目录
+  UseHugoToc: true
+  # 禁用第一篇文章的特殊格式
+  disableSpecial1stPost: true
+  # 禁用回到顶部按钮
+  disableScrollToTop: false
+  # 显示评论
+  comments: false
+  # 隐藏日期、阅读时间、作者等元数据
+  hidemeta: false
+  # 隐藏摘要 
+  hideSummary: false
+  # 显示目录
+  showtoc: true
+  # 自动打开目录
+  tocopen: false
+
+  assets:
+    disableHLJS: false
+    favicon: /avatar.jpg
+    favicon16x16: /avatar.jpg
+    favicon32x32: /avatar.jpg
+    apple_touch_icon: /avatar.jpg
+    safari_pinned_tab: /avatar.jpg
+
+  label:
+    text: 空影星辉
+    icon: /avatar.jpg
+    iconHeight: 35
+
+  homeInfoParams:
+    Title: 空影星辉
+    Content: 一个正在路上的程序猿
+
+  # 社交图标
+  socialIcons:
+    - name: github
+      url: https://github.com/lzhuii
+
+  # 封面
+  cover:
+    # 在所有地方隐藏封面
+    hidden: true
+    # 在列表页面隐藏封面
+    hiddenInList: false
+    # 在文章页面隐藏封面
+    hiddenInSingle: false
+
+  # 搜索
+  fuseOpts:
+    # 区分大小写
+    isCaseSensitive: false
+    # 按相关性排序
+    shouldSort: true
+    # 大概的起始位置 
+    location: 0
+    # 和模糊位置的接近程度
+    distance: 100
+    # 匹配程度
+    threshold: 0.4
+    # 仅返回长度超过该值的匹配项目
+    minMatchCharLength: 0
+    # 搜索范围
+    keys: ["title", "permalink", "summary", "content"]
+
+
+pygmentsUseClasses: true
+markup:
+# 代码高亮
+  highlight:
+    # 不使用 class
+    noClasses: false
+    # 行号锚点
+    anchorLineNos: false
+    # 代码围栏
+    codeFences: true
+    # 检测语法
+    guessSyntax: true
+    # 行号
+    lineNos: true
+    # 样式
+    style: github
+
+# 输出格式
 outputs:
   home:
     - HTML
     - RSS
-    - JSON # is necessary
-    
-params:
-  env: production # to enable google analytics, opengraph, twitter-cards and schema.
-  title: 空影星辉
-  description: "一个正在路上的程序猿"
-  keywords: [Blog, Portfolio, PaperMod]
-  author: 空影星辉
-  images: ["<link or path of image for opengraph, twitter-cards>"]
-  DateFormat: "2006年01月02日"
-  defaultTheme: auto # dark, light
-  disableThemeToggle: false
-
-  ShowReadingTime: true
-  ShowShareButtons: false
-  ShowPostNavLinks: true
-  ShowBreadCrumbs: true
-  ShowCodeCopyButtons: true
-  ShowWordCount: true
-  ShowRssButtonInSectionTermList: true
-  UseHugoToc: true
-  disableSpecial1stPost: false
-  disableScrollToTop: false
-  comments: false
-  hidemeta: false
-  hideSummary: false
-  showtoc: true
-  tocopen: false
-
-  assets:
-    # disableHLJS: true # to disable highlight.js
-    # disableFingerprinting: true
-    favicon: "<link / abs url>"
-    favicon16x16: "<link / abs url>"
-    favicon32x32: "<link / abs url>"
-    apple_touch_icon: "<link / abs url>"
-    safari_pinned_tab: "<link / abs url>"
-
-  label:
-    text: "空影星辉"
-    icon: /apple-touch-icon.png
-    iconHeight: 35
-
-  # home-info mode
-  homeInfoParams:
-    Title: '空影星辉'
-    Content: '一个正在路上的程序猿'
-
-  socialIcons:
-    - name: github
-      url: "https://github.com/lzhuii"
-
-  cover:
-    hidden: true # hide everywhere but not in structured data
-    hiddenInList: true # hide on list pages and home
-    hiddenInSingle: true # hide on single page
-
-  # for search
-  # https://fusejs.io/api/options.html
-  fuseOpts:
-    isCaseSensitive: false
-    shouldSort: true
-    location: 0
-    distance: 1000
-    threshold: 0.4
-    minMatchCharLength: 0
-    keys: ["title", "permalink", "summary", "content"]
-
-menu:
-  main:
-    - identifier: tags
-      name: 🏷️标签
-      url: /tags/
-      weight: 1
-    - identifier: archives
-      name: ⏱️时间轴
-      url: /archives/
-      weight: 2
-    - identifier: search
-      name: 🔍搜索
-      url: /search/
-      weight: 3
-      
-# Read: https://github.com/adityatelange/hugo-PaperMod/wiki/FAQs#using-hugos-syntax-highlighter-chroma
-pygmentsUseClasses: true
-markup:
-  highlight:
-    noClasses: false
-    # anchorLineNos: true
-    # codeFences: true
-    guessSyntax: true
-    lineNos: true
-    style: monokai
+    - JSON
