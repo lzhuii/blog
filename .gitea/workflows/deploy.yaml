@@ -9,6 +9,8 @@ jobs:
       - run: echo $PATH
       - name: 拉取代码
         uses: https://gitee.com/lzhuii/checkout@v4
+        with:
+          submodules: recursive
       - name: 静态化网站
         run: hugo          
       - name: 提取字体
