@@ -1,5 +1,5 @@
 # 网址
-baseURL: https://lzhui.top/
+baseURL: https://lzhuii.github.io/
 # 网站标题
 title: 空影星辉
 # 语言
@@ -19,6 +19,8 @@ buildFuture: false
 buildExpired: false
 # 构建时清理目录
 cleanDestinationDir: true
+# 发布目录
+publishDir: docs
 
 # 菜单
 menu:
@@ -47,7 +49,7 @@ params:
   # 网站关键字
   keywords: [博客, Hugo, PaperMod]
   # 略缩图
-  images: [/avatar.jpg]
+  images: [img/avatar.jpg]
   # 作者
   author: 空影星辉
   # 日期格式
@@ -88,16 +90,17 @@ params:
   tocopen: false
 
   assets:
+    disableFingerprinting: true
     disableHLJS: false
-    favicon: /avatar.jpg
-    favicon16x16: /avatar.jpg
-    favicon32x32: /avatar.jpg
-    apple_touch_icon: /avatar.jpg
-    safari_pinned_tab: /avatar.jpg
+    favicon: img/avatar.jpg
+    favicon16x16: img/avatar.jpg
+    favicon32x32: img/avatar.jpg
+    apple_touch_icon: img/avatar.jpg
+    safari_pinned_tab: img/avatar.jpg
 
   label:
     text: 空影星辉
-    icon: /avatar.jpg
+    icon: img/avatar.jpg
     iconHeight: 35
 
   homeInfoParams:

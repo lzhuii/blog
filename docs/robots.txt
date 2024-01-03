@@ -1,0 +1,3 @@
+User-agent: *
+Disallow:
+Sitemap: https://lzhuii.github.io/sitemap.xml
