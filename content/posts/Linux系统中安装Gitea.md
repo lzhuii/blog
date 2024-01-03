@@ -1,6 +1,6 @@
 ---
-title: 'Linux 系统中安装 Gitea'
-date: '2023-12-06'
+title: Linux 系统中安装 Gitea
+date: 2023-12-06
 tags: ['Linux','Git']
 ---
 

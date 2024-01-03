@@ -1,6 +1,6 @@
 ---
-title: 'Hadoop 大数据平台搭建过程（单机）'
-date: '2023-12-29'
+title: Hadoop 大数据平台搭建过程（单机）
+date: 2023-12-29
 tags: ['大数据','Hadoop','Hive','Spark']
 ---
 

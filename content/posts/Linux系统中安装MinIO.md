@@ -1,6 +1,6 @@
 ---
-title: 'Linux 系统中安装 MinIO'
-date: '2023-12-24'
+title: Linux 系统中安装 MinIO
+date: 2023-12-24
 tags: ['Linux',MinIO']
 ---
 

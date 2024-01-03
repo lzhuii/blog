@@ -1,6 +1,6 @@
 ---
-title: '使用 Hugo 搭建博客'
-date: '2023-12-04'
+title: 使用 Hugo 搭建博客
+date: 2023-12-04
 ---
 
 1. 下载 Hugo
