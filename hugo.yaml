@@ -59,7 +59,7 @@ params:
   # 显示阅读时间
   ShowReadingTime: true
   # 显示分享按钮
-  ShowShareButtons: true
+  ShowShareButtons: false
   # 显示文章 前一个/后一个 按钮
   ShowPostNavLinks: true
   # 显示面包屑导航
