@@ -19,8 +19,6 @@ buildFuture: false
 buildExpired: false
 # 构建时清理目录
 cleanDestinationDir: true
-# 发布目录
-publishDir: docs
 
 # 菜单
 menu:
