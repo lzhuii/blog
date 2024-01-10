@@ -15,8 +15,9 @@ dnf install -y tar vim wget
 ### 网络
 
 ```bash
-vim /etc/hosts
+cat >> /etc/hosts << EOF
 192.168.1.10 data
+EOF
 ```
 
 ### 防火墙
@@ -33,10 +34,11 @@ iptables -F
 ```bash
 mkdir /user
 useradd -d /user/hadoop -m hadoop
-passwd hadoop
+echo "123456" | passwd --stdin hadoop
 
-visudo
+cat >> /etc/sudoers.d/hadoop << EOF
 hadoop  ALL=(ALL)       NOPASSWD: ALL
+EOF
 
 su hadoop
 ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
@@ -60,6 +62,7 @@ export JAVA_HOME=/opt/java
 export PATH=$PATH:$JAVA_HOME/bin
 
 source /etc/profile
+java -version
 ```
 
 ### MySQL
@@ -88,6 +91,7 @@ export PATH=$PATH:$HADOOP_HOME/bin
 export PATH=$PATH:$HADOOP_HOME/sbin
 
 source /etc/profile
+hadoop version
 ```
 
 $HADOOP_HOME/etc/hadoop/workers
@@ -170,35 +174,8 @@ $HADOOP_HOME/etc/hadoop/yarn-site.xml
 hdfs namenode -format
 start-dfs.sh
 start-yarn.sh
-hdfs dfs -mkdir -p /user/{hadoop,hive/warehouse,tez}
+hdfs dfs -mkdir -p /user/{hadoop,hive/warehouse}
 hdfs dfs -chown -R hadoop:hadoop /user
-```
-
-### Tez
-
-```bash
-tar xvf apache-tez-0.10.2-bin.tar.gz
-sudo mv apache-tez-0.10.2-bin /opt/tez
-cd /opt/tez/share
-hdfs dfs -put tez.tar.gz /user/tez
-```
-
-$HADOOP_HOME/etc/hadoop/tez-site.xml
-
-```xml
-<configuration>
-  <property>
-    <name>tez.lib.uris</name>
-    <value>${fs.defaultFS}/user/tez/tez.tar.gz</value>
-  </property>
-</configuration>
-```
-
-```bash
-vim $HADOOP_HOME/etc/hadoop/hadoop-env.sh
-
-export TEZ_HOME=/opt/tez
-export HADOOP_CLASSPATH=$HADOOP_CLASSPATH:$TEZ_HOME/*:$TEZ_HOME/lib/*
 ```
 
 ### Hive
@@ -267,10 +244,6 @@ $HIVE_HOME/conf/hive-site.xml
         <name>hive.cli.print.current.db</name>
         <value>true</value>
     </property>
-    <property>
-        <name>hive.execution.engine</name>
-        <value>tez</value>
-    </property>
 </configuration>
 ```
 
@@ -282,8 +255,6 @@ nohup hive --service metastore > $HIVE_HOME/log/metastore.log 2>&1 &
 nohup hive --service hiveserver2 > $HIVE_HOME/log/hiveserver2.log 2>&1 &
 beeline -u jdbc:hive2://data:10000 -n hadoop
 ```
-
-### HBase
 
 ### Spark
 
